@@ -1,0 +1,25 @@
+class Solution {
+    public List<List<String>> groupAnagrams(String[] strs) {
+        String[] sorted_strs = Arrays.copyOf(strs, strs.length);
+        
+        for (int i=0; i<strs.length; i++) {
+            String original = strs[i];
+            char[] chars = original.toCharArray();
+            Arrays.sort(chars);
+            String sorted = new String(chars);
+            sorted_strs[i] = sorted;
+        }
+        
+        HashMap<String, List<String>> map_strs = new HashMap<>();
+
+        for (String key: sorted_strs) {
+            map_strs.computeIfAbsent(key, k -> new ArrayList<>()).add(strs[Arrays.asList(sorted_strs).indexOf(key)]);
+        }
+        
+        Collection<List<String>> values = map_strs.values();
+
+        List<List<String>> list = new ArrayList<>(values);
+
+        return list;
+    }
+}
